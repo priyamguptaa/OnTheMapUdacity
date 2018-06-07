@@ -21,48 +21,7 @@ class postViewController: UIViewController, UITextFieldDelegate, MKMapViewDelega
         websiteView.isHidden = true
         activitySpinner.isHidden = true
     }
-    func getKeyboardHeight(notification: NSNotification) -> CGFloat{
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue
-        return keyboardSize.cgRectValue.height
-    }
     
-    @objc func keyboardWillShow(notification: NSNotification){
-        if locationTextField.isFirstResponder{
-            self.view.frame.origin.y = -getKeyboardHeight(notification: notification)
-        }
-        else if websiteTextField.isFirstResponder{
-            self.view.frame.origin.y = -getKeyboardHeight(notification: notification)
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification){
-        if locationTextField.isFirstResponder{
-            self.view.frame.origin.y = 0
-        }
-        else if websiteTextField.isFirstResponder{
-            self.view.frame.origin.y = 0
-        }
-    }
-    
-    func keyBoardNotificationsOn(){
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-    }
-    
-    func keyBoardNotificationsOff(){
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        keyBoardNotificationsOn()
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        keyBoardNotificationsOff()
-    }
     
     //locationView
     @IBOutlet weak var locationView: UIView!
